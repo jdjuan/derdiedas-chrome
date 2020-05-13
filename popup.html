@@ -8,6 +8,7 @@
       body {
         margin: 0;
         padding: 1rem;
+        border-bottom: 16px solid #673ab7;
       }
       input {
         border: none;
@@ -57,7 +58,7 @@
         margin-left: auto;
         margin-right: auto;
       }
-      .error-message {
+      .message {
         font-size: 12px;
         margin-bottom: 0;
         text-align: center;
@@ -65,28 +66,55 @@
       #server-error img {
         font-size: 14px;
       }
+      #similar-word {
+        margin: 1rem 0;
+        display: none;
+      }
       #result {
-        margin: 1.2rem 0px 0.5rem 0;
+        margin-top: 1.2rem;
       }
       .highlight {
-        box-shadow: 1px 1px 5px 1px gainsboro;
-        background-image: linear-gradient(90deg, #168be8, #70b9f3);
+        /* background-color: #9C27B0; */
         font-size: 20px;
         color: white;
-        padding: 7px 19px;
-        margin: 1rem 0;
-        border-radius: 7px;
+        padding: 5px 14px;
+        margin-right: 6px;
+        border-radius: 6px;
+
+        background-color: #7700ce;
       }
-      #description {
-        font-size: 12px;
-        margin: 1rem 0;
+      .description {
+        font-size: 13px;
+        margin: 15px 0 10px 0;
         color: darkslategray;
+        border-radius: 6px;
+      }
+      .emphasize {
+        padding: 5px 8px;
+        display: inline;
+        color: white;
+        border-radius: 6px;
+        background-color: #ffeb3b;
+        font-weight: initial;
+        font-size: 13px;
+        color: midnightblue;
       }
       #credits {
+        color: azure;
         position: absolute;
         bottom: 2px;
         right: 2px;
         font-size: 10px;
+      }
+      a {
+        text-decoration: none;
+        color: gold;
+      }
+      a.light {
+        color: #673ab7;
+        font-size: 10px;
+        text-decoration: underline;
+        border-radius: 5px;
       }
     </style>
   </head>
@@ -118,31 +146,46 @@
         </g>
       </svg>
     </button>
+    <div id="similar-word">
+      <p class="description emphasize">
+        We found a similar word
+      </p>
+    </div>
     <div id="result">
       <span class="highlight" id="article"></span>
       <span class="highlight" id="title"></span>
-      <div id="description"></div>
-      <div id="credits">
-        Powered by <a target="_blank" href="https://www.duden.de/">duden.de</a>,
-        and built by
-        <a target="_blank" href="https://twitter.com/jdjuan">@jdjuan</a>
-      </div>
+      <div id="description" class="description"></div>
+      <a
+        id="link"
+        href=""
+        class="light"
+        target="_blank"
+        rel="noopener noreferrer"
+        >See more</a
+      >
     </div>
     <img id="loader" src="images/book.webp" alt="searching book animation" />
     <div id="not-found">
       <br />
       <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
-      <p id="not-found-message" class="error-message">
-        We could not find the word you were looking for
+      <p id="not-found-message" class="message">
+        We could not find the word you were looking for. Make sure it is a noun
+        :)
       </p>
     </div>
     <div id="server-error">
       <br />
       <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
-      <p class="error-message">
-        That did not work, but we are to blame, not you (never).Notify the
-        creator please :)
+      <p class="message">
+        That did not work, but we are to blame, not you (never). Notify the
+        <a target="_blank" href="https://twitter.com/jdjuan">creator</a> please
+        :)
       </p>
+    </div>
+    <div id="credits">
+      Powered by <a target="_blank" href="https://www.duden.de/">duden.de</a>,
+      and built by
+      <a target="_blank" href="https://twitter.com/jdjuan">@jdjuan</a>
     </div>
     <script src="popup.js"></script>
   </body>
