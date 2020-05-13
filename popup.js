@@ -12,6 +12,7 @@ const title$ = document.getElementById('title');
 const article$ = document.getElementById('article');
 const description$ = document.getElementById('description');
 const link$ = document.getElementById('link');
+const credits$ = document.getElementById('credits');
 const url = 'https://safe-fjord-57072.herokuapp.com/search/';
 let searchTerm = '';
 
@@ -21,6 +22,7 @@ const startSearch = () => {
   notFound$.style.display = "none";
   serverError$.style.display = "none";
   similarWord$.style.display = "none";
+  credits$.style.display = "none";
 }
 
 const endSearch = () => {
@@ -47,6 +49,7 @@ const showDefinition = (data) => {
   }
   description$.innerHTML = data.description;
   link$.setAttribute('href', data.link);
+  credits$.style.display = "block";
 }
 
 const showError = (data) => {

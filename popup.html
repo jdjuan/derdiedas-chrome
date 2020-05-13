@@ -7,8 +7,10 @@
       }
       body {
         margin: 0;
+        padding: 0;
+      }
+      .container {
         padding: 1rem;
-        border-bottom: 16px solid #673ab7;
       }
       input {
         border: none;
@@ -100,11 +102,14 @@
         color: midnightblue;
       }
       #credits {
+        display: none;
         color: azure;
-        position: absolute;
-        bottom: 2px;
-        right: 2px;
+        text-align: right;
+        padding-right: 3px;
         font-size: 10px;
+        height: 16px;
+        line-height: 16px;
+        background-color: #673ab7;
       }
       a {
         text-decoration: none;
@@ -119,68 +124,70 @@
     </style>
   </head>
   <body tabindex="0" aria-activedescendant="word-input">
-    <input id="word-input" type="text" placeholder="Search noun" autofocus />
-    <button id="search-button">
-      <svg x="0px" y="0px" viewBox="0 0 24 24" width="20px" height="20px">
-        <g
-          stroke-linecap="square"
-          stroke-linejoin="miter"
-          stroke="currentColor"
-        >
-          <line
-            fill="none"
-            stroke-miterlimit="10"
-            x1="22"
-            y1="22"
-            x2="16.4"
-            y2="16.4"
-          />
-          <circle
-            fill="none"
+    <div class="container">
+      <input id="word-input" type="text" placeholder="Search noun" autofocus />
+      <button id="search-button">
+        <svg x="0px" y="0px" viewBox="0 0 24 24" width="20px" height="20px">
+          <g
+            stroke-linecap="square"
+            stroke-linejoin="miter"
             stroke="currentColor"
-            stroke-miterlimit="10"
-            cx="10"
-            cy="10"
-            r="9"
-          />
-        </g>
-      </svg>
-    </button>
-    <div id="similar-word">
-      <p class="description emphasize">
-        We found a similar word
-      </p>
-    </div>
-    <div id="result">
-      <span class="highlight" id="article"></span>
-      <span class="highlight" id="title"></span>
-      <div id="description" class="description"></div>
-      <a
-        id="link"
-        href=""
-        class="light"
-        target="_blank"
-        rel="noopener noreferrer"
-        >See more</a
-      >
-    </div>
-    <img id="loader" src="images/book.webp" alt="searching book animation" />
-    <div id="not-found">
-      <br />
-      <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
-      <p id="not-found-message" class="message">
-        We could not find the word you were looking for. Make sure it is a noun
-        :)
-      </p>
-    </div>
-    <div id="server-error">
-      <br />
-      <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
-      <p class="message">
-        That did not work, but we are to blame, not you (never). Notify the
-        <a target="_blank" href="https://twitter.com/jdjuan">creator</a> please
-        :)
-      </p>
+          >
+            <line
+              fill="none"
+              stroke-miterlimit="10"
+              x1="22"
+              y1="22"
+              x2="16.4"
+              y2="16.4"
+            />
+            <circle
+              fill="none"
+              stroke="currentColor"
+              stroke-miterlimit="10"
+              cx="10"
+              cy="10"
+              r="9"
+            />
+          </g>
+        </svg>
+      </button>
+      <div id="similar-word">
+        <p class="description emphasize">
+          We found a similar word
+        </p>
+      </div>
+      <div id="result">
+        <span class="highlight" id="article"></span>
+        <span class="highlight" id="title"></span>
+        <div id="description" class="description"></div>
+        <a
+          id="link"
+          href=""
+          class="light"
+          target="_blank"
+          rel="noopener noreferrer"
+          >See more</a
+        >
+      </div>
+      <img id="loader" src="images/book.webp" alt="searching book animation" />
+      <div id="not-found">
+        <br />
+        <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
+        <p id="not-found-message" class="message">
+          We could not find the word you were looking for. Make sure it is a
+          noun :)
+        </p>
+      </div>
+      <div id="server-error">
+        <br />
+        <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
+        <p class="message">
+          That did not work, but we are to blame, not you (never). Notify the
+          <a target="_blank" href="https://twitter.com/jdjuan">creator</a>
+          please :)
+        </p>
+      </div>
     </div>
     <div id="credits">
       Powered by <a target="_blank" href="https://www.duden.de/">duden.de</a>,
