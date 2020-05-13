@@ -1,8 +1,7 @@
 {
   "name": "Der Die Das",
   "version": "1.0",
-  "description": "Find the article of german nouns",
-  "permissions": ["https://safe-fjord-57072.herokuapp.com/search"],
+  "description": "Quickly look up the right article for any german noun",
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
