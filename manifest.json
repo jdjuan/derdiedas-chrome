@@ -1,7 +1,7 @@
 {
   "name": "Der Die Das",
   "version": "1.1",
-  "description": "Quickly look up the right article for any german noun",
+  "description": "Quickly look up the definite article for any german noun",
   "browser_action": {
     "default_popup": "popup.html",
     "default_icon": {
