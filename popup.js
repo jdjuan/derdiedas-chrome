@@ -6,6 +6,7 @@ const loader$ = document.getElementById('loader');
 const similarWord$ = document.getElementById('similar-word');
 const notFound$ = document.getElementById('not-found');
 const notFoundMessage$ = document.getElementById('not-found-message');
+const severalMeanings$ = document.getElementById('several-meanings');
 const serverError$ = document.getElementById('server-error');
 const result$ = document.getElementById('result');
 const title$ = document.getElementById('title');
@@ -13,6 +14,7 @@ const article$ = document.getElementById('article');
 const description$ = document.getElementById('description');
 const link$ = document.getElementById('link');
 const credits$ = document.getElementById('credits');
+// const url = 'http://localhost:5000/search/';
 const url = 'https://safe-fjord-57072.herokuapp.com/search/';
 let searchTerm = '';
 
@@ -23,6 +25,7 @@ const startSearch = () => {
   serverError$.style.display = "none";
   similarWord$.style.display = "none";
   credits$.style.display = "none";
+  severalMeanings$.style.display = "none";
 }
 
 const endSearch = () => {
@@ -36,18 +39,22 @@ const showDefinition = (data) => {
     similarWord$.style.display = "block";
   }
 
-  switch (data.gender.toLowerCase()) {
-    case 'maskulin':
-      article$.innerHTML = 'der';
-      break;
-    case 'feminin':
-      article$.innerHTML = 'die';
-      break;
-    case 'neutrum':
-      article$.innerHTML = 'das';
-      break;
+  let article = '';
+  if (data.gender.der) {
+    article += ' der /';
   }
-  description$.innerHTML = data.description;
+  if (data.gender.die) {
+    article += ' die /';
+  }
+  if (data.gender.das) {
+    article += ' das /';
+  }
+  article$.innerHTML = article.slice(1, -2);
+  if (data.responseType === 900) {
+    description$.innerHTML = data.description;
+  } else if (data.responseType === 901) {
+    severalMeanings$.style.display = "block";
+  }
   link$.setAttribute('href', data.link);
   credits$.style.display = "block";
 }
