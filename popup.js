@@ -24,6 +24,7 @@ const startSearch = () => {
   notFound$.style.display = "none";
   serverError$.style.display = "none";
   similarWord$.style.display = "none";
+  description$.style.display = "none";
   credits$.style.display = "none";
   severalMeanings$.style.display = "none";
 }
@@ -51,6 +52,7 @@ const showDefinition = (data) => {
   }
   article$.innerHTML = article.slice(1, -2);
   if (data.responseType === 900) {
+    description$.style.display = "block";
     description$.innerHTML = data.description;
   } else if (data.responseType === 901) {
     severalMeanings$.style.display = "block";
