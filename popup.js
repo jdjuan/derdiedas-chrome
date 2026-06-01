@@ -116,3 +116,11 @@ input$.onkeyup = ({ which }) => {
     searchDefinition();
   }
 };
+
+chrome.storage.local.get('pendingWord', ({ pendingWord }) => {
+  if (pendingWord) {
+    input$.value = pendingWord;
+    chrome.storage.local.remove('pendingWord');
+    searchDefinition(); 
+  }
+});
