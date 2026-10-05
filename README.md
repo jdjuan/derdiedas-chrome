@@ -1,7 +1,9 @@
 # Der Die Das for Chrome
 
 Version 1.5 restores German noun gender lookup using a bundled dictionary.
-Searches work offline and require no server, API keys, or browser permissions.
+Searches work offline and require no server or API keys. Chrome 127 or newer
+is required. The contextMenus and storage permissions enable right-click
+lookup and temporarily hold the selected noun in browser session memory.
 The dictionary includes 92,643 noun entries from german-nouns / Wiktionary.
 Definitions are available through an optional online Wiktionary link.
 
@@ -11,6 +13,9 @@ Definitions are available through an optional online Wiktionary link.
 2. Select **Load unpacked** and choose this directory.
 3. Open the extension and search for Haus, Frau, Mann, Mädchen, Band, or Leute.
 4. Disconnect from the internet and repeat; noun lookup still works.
+5. Select a noun on a webpage, right-click, and choose **Look up gender of**.
+   The popup opens and searches automatically. If Chrome cannot open it,
+   open the extension from the toolbar to look up the pending selection.
 
 Exact spelling is required (case-insensitive lookup is supported). Inflected
 forms and new compounds may be absent. Multiple recorded genders are shown

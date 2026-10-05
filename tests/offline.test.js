@@ -34,13 +34,13 @@ test('every bundled entry has a valid title, mask, and rendered article', () => 
   }
 });
 
-function popup(fetcher) {
+function popup(fetcher, chrome) {
   const elements = new Map();
   const context = vm.createContext({
     document: { getElementById(id) {
       if (!elements.has(id)) elements.set(id, { style: {}, value: '', focus() {} });
       return elements.get(id);
-    } }, fetch: fetcher
+    } }, fetch: fetcher, chrome, console
   });
   for (const file of ['dictionary.js', 'popup.js']) {
     vm.runInContext(fs.readFileSync(path.join(root, file), 'utf8'), context);
@@ -93,4 +93,21 @@ test('latest search wins when users type while the dictionary is loading', async
   resolve({ ok: true, json: async () => entries });
   await Promise.all([first, second]);
   assert.equal(app.elements.get('title').textContent, 'Frau');
+});
+
+test('pending right-click selection is consumed and looked up offline automatically', async () => {
+  let removed;
+  const app = popup(async (url) => {
+    assert.equal(url, 'data/nouns.json');
+    return { ok: true, json: async () => entries };
+  }, { storage: { session: {
+    async get(key) { assert.equal(key, 'pendingWord'); return { pendingWord: 'Hund' }; },
+    async remove(key) { removed = key; }
+  } } });
+  await new Promise(done => setImmediate(done));
+  assert.equal(removed, 'pendingWord');
+  assert.equal(app.elements.get('word-input').value, 'Hund');
+  assert.equal(app.elements.get('title').textContent, 'Hund');
+  assert.equal(app.elements.get('article').textContent, 'der');
+  assert.equal(app.elements.get('result').style.display, 'block');
 });

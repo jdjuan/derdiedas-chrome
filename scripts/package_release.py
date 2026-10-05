@@ -7,7 +7,7 @@ root = Path(__file__).resolve().parents[1]
 version = json.loads((root / 'manifest.json').read_text())['version']
 output = root / 'dist' / f'derdiedas-{version}.zip'
 output.parent.mkdir(exist_ok=True)
-files = [root / name for name in ('manifest.json', 'popup.html', 'popup.js', 'dictionary.js')]
+files = [root / name for name in ('manifest.json', 'popup.html', 'popup.js', 'dictionary.js', 'background.js')]
 files += sorted((root / 'images').glob('*'))
 files += [root / 'data' / name for name in ('nouns.json', 'ATTRIBUTION.txt', 'LICENSE.txt')]
 with ZipFile(output, 'w', ZIP_DEFLATED) as archive:

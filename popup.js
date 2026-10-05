@@ -75,3 +75,15 @@ searchButton$.onclick = searchDefinition;
 input$.onkeyup = ({ key }) => {
   if (key === 'Enter') searchDefinition();
 };
+
+if (typeof chrome !== 'undefined' && chrome.storage?.session) {
+  chrome.storage.session.get('pendingWord')
+  .then(async ({ pendingWord }) => {
+    if (typeof pendingWord === 'string' && pendingWord.trim()) {
+      await chrome.storage.session.remove('pendingWord');
+      input$.value = pendingWord;
+      searchDefinition();
+    }
+  })
+  .catch((error) => console.warn('Could not read the selected noun.', error));
+}
