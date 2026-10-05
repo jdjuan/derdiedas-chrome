@@ -117,10 +117,12 @@ input$.onkeyup = ({ which }) => {
   }
 };
 
-chrome.storage.local.get('pendingWord', ({ pendingWord }) => {
-  if (pendingWord) {
-    input$.value = pendingWord;
-    chrome.storage.local.remove('pendingWord');
-    searchDefinition(); 
-  }
-});
+chrome.storage.session.get('pendingWord')
+  .then(async ({ pendingWord }) => {
+    if (typeof pendingWord === 'string' && pendingWord.trim()) {
+      await chrome.storage.session.remove('pendingWord');
+      input$.value = pendingWord;
+      searchDefinition();
+    }
+  })
+  .catch((error) => console.warn('Could not read the selected noun.', error));
