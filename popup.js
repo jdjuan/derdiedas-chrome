@@ -3,7 +3,6 @@
 const input$ = document.getElementById('word-input');
 const searchButton$ = document.getElementById('search-button');
 const loader$ = document.getElementById('loader');
-const similarWord$ = document.getElementById('similar-word');
 const notFound$ = document.getElementById('not-found');
 const notFoundMessage$ = document.getElementById('not-found-message');
 const severalMeanings$ = document.getElementById('several-meanings');
@@ -13,106 +12,66 @@ const title$ = document.getElementById('title');
 const article$ = document.getElementById('article');
 const description$ = document.getElementById('description');
 const link$ = document.getElementById('link');
-const credits$ = document.getElementById('credits');
-// const url = 'http://localhost:5000/search/';
-const url = 'https://german-genders.vercel.app/api/search/';
-// const url = 'https://safe-fjord-57072.herokuapp.com/search/';
-let searchTerm = '';
+let dictionaryPromise;
+let latestSearch = 0;
 
-const startSearch = () => {
-  loader$.style.display = 'block';
-  result$.style.display = 'none';
-  notFound$.style.display = 'none';
-  serverError$.style.display = 'none';
-  similarWord$.style.display = 'none';
-  description$.style.display = 'none';
-  credits$.style.display = 'none';
-  severalMeanings$.style.display = 'none';
-};
-
-const endSearch = () => {
-  loader$.style.display = 'none';
-};
-
-const showDefinition = (data) => {
-  result$.style.display = 'block';
-  title$.innerHTML = data.title;
-  if (searchTerm !== data.title.toLowerCase().trim()) {
-    similarWord$.style.display = 'block';
-  }
-
-  let article = '';
-  if (data.gender.der) {
-    article += ' der /';
-  }
-  if (data.gender.die) {
-    article += ' die /';
-  }
-  if (data.gender.das) {
-    article += ' das /';
-  }
-  article$.innerHTML = article.slice(1, -2);
-  if (data.responseType === 900) {
-    description$.style.display = 'block';
-    description$.innerHTML = data.description;
-  } else if (data.responseType === 901) {
-    severalMeanings$.style.display = 'block';
-  }
-  link$.setAttribute('href', data.link);
-  credits$.style.display = 'block';
-};
-
-const showError = (data) => {
-  switch (data.id) {
-    case 1:
-      notFound$.style.display = 'block';
-      break;
-    case 2:
-      notFound$.style.display = 'block';
-      break;
-    default:
-      serverError$.style.display = 'block';
-      break;
-  }
-};
-
-const showResult = (response) => {
-  response.json().then((data) => {
-    if (!response.ok) {
-      showError(data);
-    } else {
-      showDefinition(data);
-    }
-  });
-};
-
-const searchDefinition = () => {
-  try {
-    startSearch();
-    searchTerm = input$.value.toLowerCase().trim();
-    fetch(url + searchTerm)
+const loadDictionary = () => {
+  if (!dictionaryPromise) {
+    dictionaryPromise = fetch('data/nouns.json')
       .then((response) => {
-        console.log(response);
-        endSearch();
-        if (response.status === 404) {
-          throw {};
-        } else {
-          showResult(response);
-        }
+        if (!response.ok) throw new Error('Dictionary could not be loaded');
+        return response.json();
       })
-      .catch(() => {
-        endSearch();
-        serverError$.style.display = 'block';
+      .then(NounDictionary.create)
+      .catch((error) => {
+        dictionaryPromise = undefined;
+        throw error;
       });
+  }
+  return dictionaryPromise;
+};
+
+const searchDefinition = async () => {
+  const search = ++latestSearch;
+  const term = input$.value.normalize('NFC').trim();
+  for (const element of [result$, notFound$, serverError$, description$, severalMeanings$]) {
+    element.style.display = 'none';
+  }
+  loader$.style.display = 'none';
+  if (!term) {
+    input$.focus();
+    return;
+  }
+  loader$.style.display = 'block';
+  try {
+    const lookup = await loadDictionary();
+    if (search !== latestSearch) return;
+    const noun = lookup(term);
+    if (!noun) {
+      notFoundMessage$.textContent = 'This noun is not in the offline dictionary. Check the spelling or try its singular form.';
+      notFound$.style.display = 'block';
+      document.getElementById('not-found-link').href =
+        'https://de.wiktionary.org/wiki/Special:Search?search=' + encodeURIComponent(term);
+      return;
+    }
+    title$.textContent = noun.title;
+    article$.textContent = noun.articles.join(' / ');
+    link$.href = noun.link;
+    if (noun.pluralOnly) {
+      description$.textContent = 'Plural-only noun: die is the plural article.';
+      description$.style.display = 'block';
+    } else if (noun.articles.length > 1) {
+      severalMeanings$.style.display = 'block';
+    }
+    result$.style.display = 'block';
   } catch (error) {
-    endSearch();
-    serverError$.style.display = 'block';
+    if (search === latestSearch) serverError$.style.display = 'block';
+  } finally {
+    if (search === latestSearch) loader$.style.display = 'none';
   }
 };
 
 searchButton$.onclick = searchDefinition;
-input$.onkeyup = ({ which }) => {
-  if (which === 13) {
-    searchDefinition();
-  }
+input$.onkeyup = ({ key }) => {
+  if (key === 'Enter') searchDefinition();
 };

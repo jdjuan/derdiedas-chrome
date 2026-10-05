@@ -1,0 +1,24 @@
+Der Die Das offline noun dictionary
+
+Source: german-nouns, maintained by gambolputty and contributors,
+compiled from German Wiktionary (Wiktionary contributors).
+https://github.com/gambolputty/german-nouns
+https://de.wiktionary.org/
+Source revision: da71a2bc519b952b28c9b0b80971cff6efb508f6
+https://github.com/gambolputty/german-nouns/tree/da71a2bc519b952b28c9b0b80971cff6efb508f6
+
+License: Creative Commons Attribution-ShareAlike 4.0 International
+https://creativecommons.org/licenses/by-sa/4.0/
+Full license text: LICENSE.txt in this directory.
+The adapted nouns.json dictionary is distributed under the same license.
+
+Changes by Juan Herrera for Der Die Das:
+Extracted noun lemmas and recorded genders; omitted bound lexemes and
+entries without usable genders or explicit plural-only forms; normalized
+Unicode; merged duplicate lemmas and their genders; represented articles
+as compact bit masks. No definitions or inflected forms are included.
+Bits: 1=der, 2=die, 4=das, 8=plural-only (plural article die).
+
+The dictionary may contain errors or omissions and does not cover every
+German compound or inflected form. Multiple genders may reflect different
+meanings or regional usage. Consult the linked Wiktionary entry for details.

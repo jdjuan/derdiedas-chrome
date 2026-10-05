@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8" />
+    <title>Der Die Das</title>
     <style>
       html {
         box-sizing: border-box;
@@ -69,10 +71,6 @@
       #server-error img {
         font-size: 14px;
       }
-      #similar-word {
-        margin: 1rem 0;
-        display: none;
-      }
       #result {
         margin-top: 1.2rem;
       }
@@ -102,13 +100,12 @@
         color: midnightblue;
       }
       #credits {
-        display: none;
         color: azure;
         text-align: right;
         padding-right: 3px;
         font-size: 10px;
-        height: 16px;
-        line-height: 16px;
+        padding: 5px;
+        line-height: 18px;
         background-color: #673ab7;
       }
       a {
@@ -125,8 +122,8 @@
   </head>
   <body tabindex="0" aria-activedescendant="word-input">
     <div class="container">
-      <input id="word-input" type="text" placeholder="Search noun" autofocus />
-      <button id="search-button">
+      <input id="word-input" type="text" placeholder="Search noun (works offline)" aria-label="German noun" autofocus />
+      <button id="search-button" aria-label="Search">
         <svg x="0px" y="0px" viewBox="0 0 24 24" width="20px" height="20px">
           <g
             stroke-linecap="square"
@@ -152,18 +149,13 @@
           </g>
         </svg>
       </button>
-      <div id="similar-word">
-        <p class="description emphasize">
-          We found a similar word
-        </p>
-      </div>
-      <div id="result">
+      <div id="result" aria-live="polite">
         <span class="highlight" id="article"></span>
         <span class="highlight" id="title"></span>
         <div id="description" class="description"></div>
         <p id="several-meanings" class="emphasize">
-          This word has several meanings, please click the link below to see all
-          of them
+          This noun has multiple recorded genders. See Wiktionary for meanings
+          and usage.
         </p>
         <a
           id="link"
@@ -171,7 +163,7 @@
           class="light"
           target="_blank"
           rel="noopener noreferrer"
-          >See more</a
+          >See more on Wiktionary (online)</a
         >
       </div>
       <img id="loader" src="images/book.webp" alt="searching book animation" />
@@ -179,25 +171,28 @@
         <br />
         <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
         <p id="not-found-message" class="message">
-          We could not find the word you were looking for. Make sure it is a
-          noun :)
+          This noun is not in the offline dictionary. Check the spelling or try
+          its singular form.
         </p>
+        <p class="message"><a id="not-found-link" class="light" target="_blank" rel="noopener noreferrer">Search Wiktionary (online)</a></p>
       </div>
       <div id="server-error">
         <br />
         <img src="images/sad.webp" class="sorry" alt="sad cat animation" />
         <p class="message">
-          That did not work, but we are to blame, not you (never). Notify the
-          <a target="_blank" href="https://twitter.com/jdjuan">creator</a>
-          please :)
+          The offline dictionary could not be loaded. Try searching again or
+          reopen the extension.
         </p>
       </div>
     </div>
     <div id="credits">
-      Powered by <a target="_blank" href="https://www.duden.de/">duden.de</a>,
-      and built by
+      Dictionary: <a target="_blank" rel="noopener noreferrer" href="https://github.com/gambolputty/german-nouns">german-nouns</a>
+      from <a target="_blank" rel="noopener noreferrer" href="https://de.wiktionary.org/">Wiktionary</a>
+      · <a href="data/ATTRIBUTION.txt" target="_blank">CC BY-SA 4.0 / changes</a><br />
+      Built by
       <a target="_blank" href="https://twitter.com/jdjuan">@jdjuan</a>
     </div>
+    <script src="dictionary.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

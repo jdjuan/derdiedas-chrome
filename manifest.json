@@ -1,7 +1,7 @@
 {
   "name": "Der Die Das",
-  "version": "1.4",
-  "description": "Look up the grammatical gender of any noun quickly and easily",
+  "version": "1.5",
+  "description": "Look up German noun genders quickly and easily, even offline.",
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
