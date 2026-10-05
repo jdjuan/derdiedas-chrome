@@ -17,5 +17,13 @@
     "48": "images/favicon-48x48.png",
     "128": "images/favicon-128x128.png"
   },
-  "manifest_version": 3
+  "manifest_version": 3,
+  "permissions": [
+    "contextMenus",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "minimum_chrome_version": "127"
 }
